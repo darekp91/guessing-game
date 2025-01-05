@@ -1,24 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
-    const [message, setMessage] = useState('');
+    const [gameScore, setGameScore] = useState(0);
+    const [username, setUsername] = useState('Gracz1'); // Tymczasowy gracz
 
-    useEffect(() => {
-        // Wysyłamy żądanie GET do backendu
-        axios.get('http://localhost:8080/hello')
+    // Funkcja do wysyłania wyniku gry na backend
+    function sendScore(username, score) {
+        axios.post('http://localhost:8080/scores', {
+            username: username,
+            score: score
+        })
             .then(response => {
-                setMessage(response.data); // Odbieramy wiadomość od backendu
+                console.log("Odpowiedź z serwera:", response.data);
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Błąd przy wysyłaniu wyniku:", error);
             });
-    }, []);
+    }
+
+    // Funkcja do obsługi zakończenia gry
+    const endGame = () => {
+        const score = Math.floor(Math.random() * 100) + 1; // Przykładowy wynik (możesz dostosować)
+        setGameScore(score);
+        sendScore(username, score);
+    };
 
     return (
-        <div>
-            <h1>Komunikacja Frontend - Backend</h1>
-            <p>{message}</p>
+        <div className="App">
+            <h1>Gra w zgadywanie liczb</h1>
+            <p>Aktualny wynik: {gameScore}</p>
+            <button onClick={endGame}>Zakończ grę</button>
         </div>
     );
 }
