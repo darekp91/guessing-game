@@ -1,5 +1,7 @@
 package com.example.guessinggame;
 
+import com.example.guessinggame.model.Score;
+import com.example.guessinggame.repository.ScoreRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,6 @@ public class ScoreController {
 
     @PostMapping
     public String saveScore(@RequestBody ScoreRequest request) {
-        //Tymczasowe logowanie danych w konsoli
         System.out.println("Wynik: " + request);
         return "Wynik zapisany!";
     }
