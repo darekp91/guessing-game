@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface ScoreRepository extends JpaRepository<Score, Long> {
     List<Score> findByUsernameAndDifficulty(String username, String difficulty);
+    List<Score> findByUsernameAndDifficultyOrderByScoreAsc(String username, String difficulty);
+    List<Score> findByUsernameAndDifficultyOrderByScoreDesc(String username, String difficulty);
+
 }

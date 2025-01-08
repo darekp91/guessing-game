@@ -1,9 +1,7 @@
 package com.example.guessinggame.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Score {
@@ -15,18 +13,18 @@ public class Score {
     private String username;
     private int score;
     private String difficulty;
+    private LocalDateTime date;
 
-    // Konstruktor bezargumentowy (wymagany przez JPA)
     public Score() {}
 
-    // Konstruktor z parametrami
     public Score(String username, int score, String difficulty) {
         this.username = username;
         this.score = score;
         this.difficulty = difficulty;
     }
 
-    // Gettery i Settery
+    // Gettery i settery
+
     public Long getId() {
         return id;
     }
@@ -59,13 +57,11 @@ public class Score {
         this.difficulty = difficulty;
     }
 
-    @Override
-    public String toString() {
-        return "Score{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", score=" + score +
-                ", difficulty='" + difficulty + '\'' +
-                '}';
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

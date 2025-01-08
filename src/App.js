@@ -1,36 +1,48 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import ScoreList from "./ScoreList";
 
 function App() {
-    const [gameScore, setGameScore] = useState(0);
-    const [username, setUsername] = useState('Gracz1'); // Tymczasowy gracz
+    const [username, setUsername] = useState("Gracz1");
+    const [difficulty, setDifficulty] = useState("easy");
 
-    // Funkcja do wysyłania wyniku gry na backend
-    function sendScore(username, score) {
-        axios.post('http://localhost:8080/scores', {
-            username: username,
-            score: score
-        })
-            .then(response => {
-                console.log("Odpowiedź z serwera:", response.data);
-            })
-            .catch(error => {
-                console.error("Błąd przy wysyłaniu wyniku:", error);
-            });
-    }
-
-    // Funkcja do obsługi zakończenia gry
-    const endGame = () => {
-        const score = Math.floor(Math.random() * 100) + 1; // Przykładowy wynik (możesz dostosować)
-        setGameScore(score);
-        sendScore(username, score);
-    };
+    const handleUsernameChange = (e) => setUsername(e.target.value);
+    const handleDifficultyChange = (e) => setDifficulty(e.target.value);
 
     return (
-        <div className="App">
-            <h1>Gra w zgadywanie liczb</h1>
-            <p>Aktualny wynik: {gameScore}</p>
-            <button onClick={endGame}>Zakończ grę</button>
+        <div>
+            <header>
+                <h1>Gra w zgadywanie liczb - Wyniki</h1>
+            </header>
+            <main>
+                <section>
+                    <h2>Wybierz parametry:</h2>
+                    <label>
+                        Nazwa użytkownika:
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={handleUsernameChange}
+                            placeholder="Podaj nazwę użytkownika"
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Poziom trudności:
+                        <select value={difficulty} onChange={handleDifficultyChange}>
+                            <option value="easy">Łatwy</option>
+                            <option value="medium">Średni</option>
+                            <option value="hard">Trudny</option>
+                            <option value="hardcore">Hardkorowy</option>
+                        </select>
+                    </label>
+                </section>
+                <section>
+                    <ScoreList username={username} difficulty={difficulty} />
+                </section>
+            </main>
+            <footer>
+                <p>&copy; 2025 Gra w zgadywanie liczb</p>
+            </footer>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import com.example.guessinggame.model.Score;
 import com.example.guessinggame.repository.ScoreRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,6 +21,7 @@ public class ScoreController {
     @PostMapping
     public String saveScore(@RequestBody ScoreRequest request) {
         Score score = new Score(request.username, request.score, request.difficulty);
+        score.setDate(LocalDateTime.now()); // Automatyczne ustawienie daty
         scoreRepository.save(score);
         return "Wynik zapisany!";
     }
@@ -30,10 +32,16 @@ public class ScoreController {
         return scoreRepository.findAll();
     }
 
-    // Endpoint do filtrowania wyników
+    // Endpoint do filtrowania wyników po użytkowniku i poziomie trudności
     @GetMapping("/filter")
-    public List<Score> getFilteredScores(@RequestParam String username, @RequestParam String difficulty) {
-        return scoreRepository.findByUsernameAndDifficulty(username, difficulty);
+    public List<Score> filterScores(
+            @RequestParam String username,
+            @RequestParam String difficulty,
+            @RequestParam(defaultValue = "asc") String sort) {
+        if (sort.equals("desc")) {
+            return scoreRepository.findByUsernameAndDifficultyOrderByScoreDesc(username, difficulty);
+        }
+        return scoreRepository.findByUsernameAndDifficultyOrderByScoreAsc(username, difficulty);
     }
 
     // Klasa wewnętrzna do obsługi żądań JSON
