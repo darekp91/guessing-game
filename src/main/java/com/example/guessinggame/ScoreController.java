@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/scores")
 public class ScoreController {
@@ -58,5 +61,11 @@ public class ScoreController {
                     ", difficulty='" + difficulty + '\'' +
                     '}';
         }
+    }
+    @GetMapping("/filterByDate")
+    public List<Score> filterScoresByDate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return scoreRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
     }
 }
