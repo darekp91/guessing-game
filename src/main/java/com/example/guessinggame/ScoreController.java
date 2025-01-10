@@ -2,6 +2,8 @@ package com.example.guessinggame;
 
 import com.example.guessinggame.model.Score;
 import com.example.guessinggame.repository.ScoreRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -68,4 +70,9 @@ public class ScoreController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return scoreRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
     }
+    @GetMapping("/top")
+    public List<Score> getTopScores(@RequestParam(defaultValue = "10") int limit) {
+        return scoreRepository.findAll(PageRequest.of(0, limit, Sort.by("score").descending())).getContent();
+    }
+
 }
