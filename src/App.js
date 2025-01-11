@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ScoreList from "./ScoreList";
 import TopScores from "./TopScores"; // Import widoku "Najlepsze wyniki"
 import Home from "./Home"; // Import widoku strony głównej
+import Game from "./Game";
+import './styles.css';
 
 function App() {
     const [username, setUsername] = useState("Gracz1");
@@ -56,6 +58,8 @@ function App() {
                             }
                         />
                         <Route path="/top-scores" element={<TopScores />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/game" element={<Game />} />
                     </Routes>
                 </main>
                 <footer>
