@@ -20,11 +20,13 @@ function App() {
                     <h1>Gra w zgadywanie liczb</h1>
                     <nav>
                         <Link to="/">Strona główna</Link> |{" "}
-                        <Link to="/top-scores">Najlepsze wyniki</Link>
+                        <Link to="/top-scores">Najlepsze wyniki</Link> |{" "}
+                        <Link to="/game">Zagraj</Link>
                     </nav>
                 </header>
                 <main>
                     <Routes>
+                        {/* Strona główna */}
                         <Route
                             path="/"
                             element={
@@ -57,9 +59,15 @@ function App() {
                                 </Home>
                             }
                         />
+
+                        {/* Widok najlepszych wyników */}
                         <Route path="/top-scores" element={<TopScores />} />
-                        <Route path="/" element={<Home />} />
-                        <Route path="/game" element={<Game />} />
+
+                        {/* Widok gry */}
+                        <Route
+                            path="/game"
+                            element={<Game username={username} difficulty={difficulty} />}
+                        />
                     </Routes>
                 </main>
                 <footer>
